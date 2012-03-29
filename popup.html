@@ -1,0 +1,45 @@
+<link href="css/bootstrap.css" rel="stylesheet">
+<script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$("a#placeCall").click(function () {
+		
+		// Get number from form
+	    var toNumber = encodeURIComponent($("input#toNumber").val());
+	    
+	    // URL encode settings where necessary
+	    var callerIdEnc = encodeURIComponent(localStorage['callerId']);
+	    var clientNameEnc = encodeURIComponent(localStorage['clientName']);
+	    
+	    // Generate Twimlet that <Dials> client name
+	    var clientTwimlet = 'http://twimlets.com/echo?Twiml=%3CResponse%3E%3CDial%3E%3CClient%3E' + clientNameEnc + '%3C%2FClient%3E%3C%2FDial%3E%3C%2FResponse%3E&';
+	    var encodedClientTwimlet = encodeURIComponent(clientTwimlet);
+	    
+	    // Place the call
+	    var apiUrl = 'https://api.twilio.com/2010-04-01/Accounts/' + localStorage['accountSid'] + '/Calls.json';
+	    var postParameters = 'From=' + callerIdEnc + '&To=' + toNumber + '&Url=' + encodedClientTwimlet + '';
+	    
+		$.ajax({
+		  type: "POST",
+		  url: apiUrl,
+		  data: postParameters,
+		  username: localStorage['accountSid'],
+		  password: localStorage['authToken']
+		});
+		
+		// Show that the call is in progress
+		$('#status').text('Success');
+	
+	});
+	
+
+});
+</script>
+
+<input id="toNumber" type="text" placeholder="Who do you want to Call?"><br>
+<a class="btn btn-primary btn-large" id="placeCall">Call</a>
+<p id="status">Ready</p>
