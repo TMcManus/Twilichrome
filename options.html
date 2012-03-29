@@ -6,57 +6,35 @@
 	<script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
 	<script src="js/bootstrap.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
+		
+		/* Common functions */
+		function getSavedValue(key, identifier){
+			if(localStorage[key] != ''){
+				var valueToReturn = localStorage[key];
+				$(identifier).val(valueToReturn);
+				return valueToReturn;
+			};
+		};
+		
+		function setValue(key, identifier){
+			var valueToReturn = $(identifier).val();
+			localStorage[key] = valueToReturn;
+			return valueToReturn;
+		}
+		
 		/* Setup values */
 		$(document).ready(function() {
+			
+			accountSid = getSavedValue('accountSid','input#accountSid');
+			authToken = getSavedValue('authToken','input#authToken');
+			clientName = getSavedValue('clientName','input#clientName');
+			callerId = getSavedValue('callerId','input#callerId');
 
-			/* all this stuff can totally be turned into a function */
-			if(localStorage['accountSid'] != ''){
-				var accountSid = localStorage['accountSid'];
-				$("input#accountSid").val(accountSid);
-			};
-			
-			if(localStorage['authToken'] != ''){
-				var authToken = localStorage['authToken'];
-				$("input#authToken").val(authToken);
-			};
-			
-			if(localStorage['clientName'] != ''){
-				var clientName = localStorage['clientName'];
-				$("input#clientName").val(clientName);
-			};
-			
-			if(localStorage['callerId'] != ''){
-				var callerId = localStorage['callerId'];
-				$("input#callerId").val(callerId);
-			};
-			
 			$("button#saveSettings").click(function () {
-
-				
-				if(typeof accountSid == 'undefined'){
-					var accountSid = $("input#accountSid").val();
-					localStorage['accountSid'] = accountSid;
-					$("input#accountSid").val(accountSid);
-				};
-				
-				if(typeof authToken == 'undefined'){
-					var authToken = $("input#authToken").val();
-					localStorage['authToken'] = authToken;
-					$("input#authToken").val(authToken);
-				};
-				
-				if(typeof clientName == 'undefined'){
-					var clientName = $("input#clientName").val();
-					localStorage['clientName'] = clientName;
-					$("input#clientName").val(clientName);
-				};
-				
-				if(typeof callerId == 'undefined'){
-					var callerId = $("input#callerId").val();
-					localStorage['callerId'] = callerId;
-					$("input#callerId").val(callerId);
-				};	
-				
+				accountSid = setValue('accountSid', 'input#accountSid');
+				accountSid = setValue('authToken', 'input#authToken');
+				accountSid = setValue('clientName', 'input#clientName');
+				accountSid = setValue('callerId', 'input#callerId');
 				window.alert('Settings have been saved.');
 			});
 		});
@@ -64,11 +42,13 @@
 </head>
 
 <body>
-	<input id="accountSid" type="text" placeholder="Account SID"><br>
-	<input id="authToken" type="text" placeholder="AuthToken"><br>
-	<input id="clientName" type="text" placeholder="Your Twilio Client ID" value="Trenton"><br>
-	<input id="callerId" type="text" placeholder="What caller ID do you want to show?" value="+15636075328"><br>
-	<button id="saveSettings">Save Settings</button>
+	<div class="container">
+		<input id="accountSid" type="text" placeholder="Account SID"><br>
+		<input id="authToken" type="text" placeholder="AuthToken"><br>
+		<input id="clientName" type="text" placeholder="Your Twilio Client ID"><br>
+		<input id="callerId" type="text" placeholder="What caller ID do you want to show?"><br>
+		<button id="saveSettings">Save Settings</button>
+	</div>
 </body>
 
 </html>
