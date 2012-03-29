@@ -4,10 +4,14 @@
   "description": "Use Google Chrome to make a call via Twilio",
   "options_page": "options.html",
   "browser_action": {
-    "default_icon": "icon.png",
+    "default_icon": "img/twilio.png",
     "popup": "popup.html"
   },
   "permissions": [
-    "https://api.twilio.com/"
-  ]
+    "https://api.twilio.com/*"
+  ],
+  "icons": {
+        "128": "img/logomash128.png",
+        "48": "img/logomash48.png"
+    }
 }
